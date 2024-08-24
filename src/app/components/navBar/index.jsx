@@ -1,0 +1,157 @@
+"use client"
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Badge from '@mui/material/Badge';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useMediaQuery, useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+
+
+export default function PrimarySearchBar  () {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [showAppBar, setShowAppBar] = useState(true);
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const fadeOutThreshold = 15;
+
+      const opacity = 1 - Math.min(1, scrollTop / fadeOutThreshold);
+      setShowAppBar(opacity > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  return (
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar
+          color="inherit"
+          position="fixed"
+          sx={{
+            background: '#DCDCDC',
+            boxShadow: 'none',
+            height: '70px',
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+          <Toolbar>
+            {isMobile ? (
+              <IconButton
+                sx={{ mr: 2 }}
+                onClick={handleMenuOpen}>
+                <MenuIcon />
+              </IconButton>
+            ) : undefined}
+
+            <Typography
+              sx={{
+                flexGrow: 1,
+                display: 'flex',
+                justifyContent: isMobile ? 'center' : undefined,
+              }}>
+              {/* <Box
+                component={'img'}
+                src={TechDev}
+                alt={TechDev}
+                sx={{
+                  ml: isMobile ? 3 : undefined,
+                  width: isMobile ? '65%' : '13%',
+                }}
+              /> */}
+            </Typography>
+
+            
+
+            <Box>
+             
+              <IconButton sx={{ mr: isMobile ? 0 : 2 }}>
+                <Badge
+                  badgeContent={4}
+                  color="error"
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      fontSize: '0.7rem',
+                      minWidth: '18px',
+                      height: '16px',
+                    },
+                  }}>
+                  <ShoppingCartIcon sx={{ width: '26px', height: '26px', color: '#8B96A5' }} />
+                </Badge>
+              </IconButton>
+              <IconButton>
+                <Badge
+                  badgeContent={0}
+                  color="error"
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      fontSize: '0.7rem',
+                      minWidth: '18px',
+                      height: '16px',
+                    },
+                  }}>
+                  <AccountCircleIcon
+                    sx={{
+                      width: '27px',
+                      height: '27px',
+                      color: '#778899',
+                      display: isMobile ? 'none' : undefined,
+                    }}
+                  />
+                </Badge>
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <AppBar
+        sx={{
+          marginTop: 7,
+          width: '100%',
+          background: '#DCDCDC',
+          boxShadow: 'none',
+          height: '70px',
+          display: isMobile ? 'flex' : 'none',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+       
+      </AppBar>
+
+  
+      {showAppBar && (
+        <AppBar
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            marginTop: isMobile ? 16.5 : 9.5,
+            background: 'blue',
+            color: 'white',
+            padding: 1,
+            transition: 'opacity 0.5s ease-in-out',
+            opacity: showAppBar ? 1 : 0,
+          }}>
+          Frete Grátis nas Comprar acima de R$ 100
+        </AppBar>
+      )}
+    </>
+  );
+};
