@@ -17,7 +17,7 @@ export default function Cards() {
         { title: "Scented Candle Set", price: "$39.99", image: testeImg },
         { title: "Stainless Steel Thermos", price: "$34.99", image: testeImg },
       ].map((product, index) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={index} sx={{ marginTop: "7rem" }}>
+        <Grid item xs={12} sm={6} md={4} lg={3} key={index} sx={{ marginTop: "6rem" }}>
           <Card sx={{ maxWidth: 345, transition: "0.3s", "&:hover": { boxShadow: 6 } }}>
             <Link href="#" prefetch={false}>
         

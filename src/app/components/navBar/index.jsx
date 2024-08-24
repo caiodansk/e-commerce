@@ -1,47 +1,33 @@
-"use client"
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Badge from '@mui/material/Badge';
+"use client";
+import { useEffect, useState } from 'react';
+import { useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Typography, Badge } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useMediaQuery, useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
+import Link from 'next/link';
 
 
-export default function PrimarySearchBar  () {
+export default function PrimarySearchBar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [showAppBar, setShowAppBar] = useState(true);
-
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const fadeOutThreshold = 15;
-
       const opacity = 1 - Math.min(1, scrollTop / fadeOutThreshold);
       setShowAppBar(opacity > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   return (
     <>
+
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           color="inherit"
@@ -53,50 +39,48 @@ export default function PrimarySearchBar  () {
             display: 'flex',
             justifyContent: 'center',
           }}>
+          
           <Toolbar>
             {isMobile ? (
-              <IconButton
-                sx={{ mr: 2 }}
-                onClick={handleMenuOpen}>
+              <IconButton sx={{ mr: 2 }}>
                 <MenuIcon />
               </IconButton>
-            ) : undefined}
+            ) : null}
 
             <Typography
               sx={{
                 flexGrow: 1,
                 display: 'flex',
-                justifyContent: isMobile ? 'center' : undefined,
+                justifyContent: isMobile ? 'center' : 'flex-start',
               }}>
-              {/* <Box
-                component={'img'}
-                src={TechDev}
-                alt={TechDev}
+              <Box
+                component="img"
+                src="/logo.svg"
                 sx={{
-                  ml: isMobile ? 3 : undefined,
+                  ml: isMobile ? 3 : 0,
                   width: isMobile ? '65%' : '13%',
                 }}
-              /> */}
+              />
             </Typography>
 
-            
-
             <Box>
-             
-              <IconButton sx={{ mr: isMobile ? 0 : 2 }}>
-                <Badge
-                  badgeContent={4}
-                  color="error"
-                  sx={{
-                    '& .MuiBadge-badge': {
-                      fontSize: '0.7rem',
-                      minWidth: '18px',
-                      height: '16px',
-                    },
-                  }}>
-                  <ShoppingCartIcon sx={{ width: '26px', height: '26px', color: '#8B96A5' }} />
-                </Badge>
-              </IconButton>
+                <Link rel="stylesheet" href="/pages/carrinhos" >
+                <IconButton sx={{ mr: isMobile ? 0 : 2 }}>
+              
+                  <Badge
+                    badgeContent={4}
+                    color="error"
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        fontSize: '0.7rem',
+                        minWidth: '18px',
+                        height: '16px',
+                      },
+                    }}>
+                    <ShoppingCartIcon sx={{ width: '26px', height: '26px', color: '#8B96A5' }} />
+                  </Badge>
+                </IconButton>
+                </Link>
               <IconButton>
                 <Badge
                   badgeContent={0}
@@ -113,7 +97,7 @@ export default function PrimarySearchBar  () {
                       width: '27px',
                       height: '27px',
                       color: '#778899',
-                      display: isMobile ? 'none' : undefined,
+                      display: isMobile ? 'none' : 'block',
                     }}
                   />
                 </Badge>
@@ -122,6 +106,7 @@ export default function PrimarySearchBar  () {
           </Toolbar>
         </AppBar>
       </Box>
+
       <AppBar
         sx={{
           marginTop: 7,
@@ -133,10 +118,9 @@ export default function PrimarySearchBar  () {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-       
+        {/* Mobile AppBar content */}
       </AppBar>
 
-  
       {showAppBar && (
         <AppBar
           sx={{
@@ -149,9 +133,9 @@ export default function PrimarySearchBar  () {
             transition: 'opacity 0.5s ease-in-out',
             opacity: showAppBar ? 1 : 0,
           }}>
-          Frete Grátis nas Comprar acima de R$ 100
+          Frete Grátis nas Compras acima de R$ 100
         </AppBar>
       )}
     </>
   );
-};
+}
