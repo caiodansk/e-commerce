@@ -1,4 +1,5 @@
-"use client";
+"use client"; // Certifique-se de colocar isso na primeira linha do arquivo
+
 import { useEffect, useState } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { AppBar, Box, Toolbar, IconButton, Typography, Badge } from '@mui/material';
@@ -7,11 +8,11 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
 
-
 export default function PrimarySearchBar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [showAppBar, setShowAppBar] = useState(true);
+  const [cartItemCount, setCartItemCount] = useState(0); // Estado para armazenar o número de itens no carrinho
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,9 +26,15 @@ export default function PrimarySearchBar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Recupera o carrinho do localStorage e calcula o número total de itens
+    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = savedCart.reduce((acc, item) => acc + item.quantity, 0);
+    setCartItemCount(totalItems);
+  }, []); // Executa apenas uma vez quando o componente é montado
+
   return (
     <>
-
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           color="inherit"
@@ -64,11 +71,10 @@ export default function PrimarySearchBar() {
             </Typography>
 
             <Box>
-                <Link rel="stylesheet" href="/pages/carrinhos" >
+              <Link href="/pages/carrinhos" passHref>
                 <IconButton sx={{ mr: isMobile ? 0 : 2 }}>
-              
                   <Badge
-                    badgeContent={4}
+                    badgeContent={cartItemCount} // Usa o número de itens do estado
                     color="error"
                     sx={{
                       '& .MuiBadge-badge': {
@@ -80,7 +86,7 @@ export default function PrimarySearchBar() {
                     <ShoppingCartIcon sx={{ width: '26px', height: '26px', color: '#8B96A5' }} />
                   </Badge>
                 </IconButton>
-                </Link>
+              </Link>
               <IconButton>
                 <Badge
                   badgeContent={0}

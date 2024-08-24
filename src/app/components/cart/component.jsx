@@ -1,20 +1,25 @@
 "use client"; 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, CardContent, CardActions, Typography, IconButton, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CartComponent() {
-  const [cart, setCart] = useState([
-    { id: 1, name: 'Cozy Blanket', price: 29.99, quantity: 2 },
-    { id: 2, name: 'Autumn Mug', price: 12.99, quantity: 1 },
-    { id: 3, name: 'Fall Fragrance Candle', price: 16.99, quantity: 1 },
-  ]);
+
+  const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCart(savedCart);
+  }, []);
 
   const removeFromCart = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
+    const updatedCart = cart.filter((item) => item.id !== id);
+    setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart)); 
   };
 
-  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  const total = cart.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 1)), 0);
 
   return (
     <div style={{ padding: '24px', maxWidth: '1200px', margin: 'auto' }}>
@@ -37,12 +42,12 @@ export default function CartComponent() {
                     <Typography variant="body2" color="textSecondary">
                       Quantity: {item.quantity}
                       <br />
-                      Unit Price: ${item.price.toFixed(2)}
+                      Unit Price: ${Number(item.price).toFixed(2)}
                     </Typography>
                   </CardContent>
                   <CardActions style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                     <Typography variant="body1" style={{ marginBottom: '8px' }}>
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ${(Number(item.price) * (item.quantity || 1)).toFixed(2)}
                     </Typography>
                     <IconButton color="error" onClick={() => removeFromCart(item.id)}>
                       <DeleteIcon />
