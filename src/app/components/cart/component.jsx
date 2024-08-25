@@ -15,7 +15,7 @@ export default function CartComponent() {
     const updatedCart = cart.filter((item) => item.id !== id);
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    updateCartCount(updatedCart); 
+    updateCartCount(updatedCart);
   };
 
   const updateCartCount = (cartItems) => {
@@ -24,7 +24,7 @@ export default function CartComponent() {
   };
 
   useEffect(() => {
-    updateCartCount(cart); 
+    updateCartCount(cart);
   }, [cart]);
 
   const total = cart.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 1)), 0);
@@ -35,28 +35,26 @@ export default function CartComponent() {
     setCart([]);
     localStorage.setItem('cart', JSON.stringify([]));
     localStorage.removeItem('cartItemCount');
-    
-   
   };
 
   return (
-    <div style={{ padding: '50px', maxWidth: '1200px', margin: 'auto', background:'black'}}>
+    <div style={{ padding: '50px', maxWidth: '1200px', margin: 'auto', background: 'black' }}>
       <Grid container spacing={4}>
         <Grid item xs={12} md={8}>
           <Typography variant="h4" gutterBottom>
-          Meu Carrinho
+            Meu Carrinho
           </Typography>
           <Grid container spacing={2}>
             {cart.map((item) => (
               <Grid item xs={12} key={item.id}>
                 <Card variant="outlined" style={{ display: 'flex', alignItems: 'center', padding: '16px' }}>
                   <img
-                    src="https://img.freepik.com/psd-gratuitas/modelo-de-banner-de-postagem-de-midia-social-ou-postagem-do-instagram-da-venda-da-sexta-feira-negra_505751-6102.jpg?t=st=1724524306~exp=1724527906~hmac=52765a6ba0f375be5a88c47f12e755b1a12c9e68451e7eeec723e1fe90679b23&w=740"
-                    alt={item.name}
+                    src={item.images ? item.images[0] : "https://img.freepik.com/psd-gratuitas/modelo-de-banner-de-postagem-de-midia-social-ou-postagem-do-instagram-da-venda-da-sexta-feira-negra_505751-6102.jpg?t=st=1724524306~exp=1724527906~hmac=52765a6ba0f375be5a88c47f12e755b1a12c9e68451e7eeec723e1fe90679b23&w=740"}
+                    alt={item.title}
                     style={{ width: '64px', height: '64px', objectFit: 'cover', marginRight: '16px' }}
                   />
                   <CardContent style={{ flex: 1 }}>
-                    <Typography variant="h6">{item.name}</Typography>
+                    <Typography variant="h6">{item.title}</Typography>
                     <Typography variant="body2" color="textSecondary">
                       Quantity: {item.quantity}
                       <br />
@@ -101,3 +99,4 @@ export default function CartComponent() {
     </div>
   );
 }
+ 
