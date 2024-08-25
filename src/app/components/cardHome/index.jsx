@@ -4,7 +4,7 @@ import { Grid, Card, CardContent, Typography, Button } from "@mui/material";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
-const API_URL = 'http://localhost:3001/api/products';
+const API_URL = 'https://api-e-commerce-59rz.onrender.com/api/products';
 
 export default function Cards() {
   const generateId = () => Math.floor(Math.random() * 1000000);
