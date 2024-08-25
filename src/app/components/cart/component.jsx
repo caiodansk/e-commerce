@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Button, Card, CardContent, CardActions, Typography, IconButton, Grid } from '@mui/material';
+import { Button, Card, CardContent, CardActions, Typography, IconButton, Grid, Snackbar, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CartComponent() {
   const [cart, setCart] = useState([]);
+  const [notification, setNotification] = useState({ open: false, message: "", severity: "success" }); // Estado para notificação
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -30,11 +31,23 @@ export default function CartComponent() {
   const total = cart.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 1)), 0);
 
   const handleCheckout = () => {
+    if (cart.length === 0) {
+      setNotification({ open: true, message: "O carrinho está vazio!", severity: "warning" });
+      return;
+    }
+
     alert(`Seu pedido deu no total de $${total.toFixed(2)}`);
     
     setCart([]);
     localStorage.setItem('cart', JSON.stringify([]));
     localStorage.removeItem('cartItemCount');
+
+    // Mostrar notificação de pedido finalizado
+    setNotification({ open: true, message: "Pedido finalizado com sucesso!", severity: "success" });
+  };
+
+  const handleCloseNotification = () => {
+    setNotification({ ...notification, open: false });
   };
 
   return (
@@ -56,9 +69,9 @@ export default function CartComponent() {
                   <CardContent style={{ flex: 1 }}>
                     <Typography variant="h6">{item.title}</Typography>
                     <Typography variant="body2" color="textSecondary">
-                      Quantity: {item.quantity}
+                      Quantidade: {item.quantity}
                       <br />
-                      Unit Price: ${Number(item.price).toFixed(2)}
+                      Preço Unitário: ${Number(item.price).toFixed(2)}
                     </Typography>
                   </CardContent>
                   <CardActions style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
@@ -96,7 +109,18 @@ export default function CartComponent() {
           </Card>
         </Grid>
       </Grid>
+
+     
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={5000}
+        onClose={handleCloseNotification}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert onClose={handleCloseNotification} severity={notification.severity} sx={{ width: '100%' }}>
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
- 
