@@ -4,7 +4,7 @@ Este é um projeto de e-commerce simples desenvolvido com Next.js. O projeto per
 
 api foi desevolvida por mim mesmo pra teste onde foi hospedada no render para ser utilizada nesse projeto.
 
-peço que apos entrar na ecommece e não visualizar nada por favor atualize a pagina,  como  a api esta hospedado na versão gratuita do render ela fica  adomercida as vezes basta atualizar a pagina pra acordar-la e esperar um tempinho 
+peço que apos entrar na ecommece e não visualizar nada por favor atualize a pagina,  como  a api esta hospedado na versão gratuita do render ela fica  adomercida as vezes basta atualizar a pagina pra acordar-la e esperar um tempinho e funcionarar nomalmente a pagina
 
 ## Funcionalidades
 
@@ -82,4 +82,6 @@ yarn dev
 Para iniciar o servidor de desenvolvimento, execute:
 ```bash
 node server.js
-
+```
+## Autor desse projeto
+CAIO VILANTE
