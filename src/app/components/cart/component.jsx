@@ -1,10 +1,9 @@
-"use client"; 
+"use client";
 import React, { useState, useEffect } from 'react';
 import { Button, Card, CardContent, CardActions, Typography, IconButton, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CartComponent() {
-
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
@@ -15,18 +14,37 @@ export default function CartComponent() {
   const removeFromCart = (id) => {
     const updatedCart = cart.filter((item) => item.id !== id);
     setCart(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart)); 
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    updateCartCount(updatedCart); 
   };
 
+  const updateCartCount = (cartItems) => {
+    const totalItems = cartItems.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0);
+    localStorage.setItem('cartItemCount', totalItems);
+  };
+
+  useEffect(() => {
+    updateCartCount(cart); 
+  }, [cart]);
 
   const total = cart.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 1)), 0);
 
+  const handleCheckout = () => {
+    alert(`Seu pedido deu no total de $${total.toFixed(2)}`);
+    
+    setCart([]);
+    localStorage.setItem('cart', JSON.stringify([]));
+    localStorage.removeItem('cartItemCount');
+    
+   
+  };
+
   return (
-    <div style={{ padding: '24px', maxWidth: '1200px', margin: 'auto' }}>
+    <div style={{ padding: '50px', maxWidth: '1200px', margin: 'auto', background:'black'}}>
       <Grid container spacing={4}>
         <Grid item xs={12} md={8}>
           <Typography variant="h4" gutterBottom>
-            Cart
+          Meu Carrinho
           </Typography>
           <Grid container spacing={2}>
             {cart.map((item) => (
@@ -61,14 +79,20 @@ export default function CartComponent() {
         <Grid item xs={12} md={4}>
           <Card variant="outlined" style={{ padding: '16px' }}>
             <CardContent>
-              <Typography variant="h6">Order Summary</Typography>
+              <Typography variant="h6">Resumo do Pedido</Typography>
               <Typography variant="h4" style={{ marginTop: '8px' }}>
                 ${total.toFixed(2)}
               </Typography>
             </CardContent>
             <CardActions>
-              <Button variant="contained" color="primary" size="large" fullWidth>
-                Proceed to Checkout
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth
+                onClick={handleCheckout}
+              >
+                Finalizar Pedido
               </Button>
             </CardActions>
           </Card>

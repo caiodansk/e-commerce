@@ -12,8 +12,7 @@ export default function PrimarySearchBar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [showAppBar, setShowAppBar] = useState(true);
-  const [cartItemCount, setCartItemCount] = useState(0); // Estado para armazenar o número de itens no carrinho
-
+  const [cartItemCount, setCartItemCount] = useState(0); 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -27,11 +26,11 @@ export default function PrimarySearchBar() {
   }, []);
 
   useEffect(() => {
-    // Recupera o carrinho do localStorage e calcula o número total de itens
+   
     const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
     const totalItems = savedCart.reduce((acc, item) => acc + item.quantity, 0);
-    setCartItemCount(totalItems);
-  }, []); // Executa apenas uma vez quando o componente é montado
+    Number (setCartItemCount(totalItems));
+  }, []); 
 
   return (
     <>
@@ -73,18 +72,9 @@ export default function PrimarySearchBar() {
             <Box>
               <Link href="/pages/carrinhos" passHref>
                 <IconButton sx={{ mr: isMobile ? 0 : 2 }}>
-                  <Badge
-                    badgeContent={cartItemCount} // Usa o número de itens do estado
-                    color="error"
-                    sx={{
-                      '& .MuiBadge-badge': {
-                        fontSize: '0.7rem',
-                        minWidth: '18px',
-                        height: '16px',
-                      },
-                    }}>
+                
                     <ShoppingCartIcon sx={{ width: '26px', height: '26px', color: '#8B96A5' }} />
-                  </Badge>
+                
                 </IconButton>
               </Link>
               <IconButton>
