@@ -98,7 +98,7 @@ export default function Cards() {
     
       <Snackbar
         open={notification.open}
-        autoHideDuration={600} 
+        autoHideDuration={2000} 
         onClose={handleCloseNotification}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
