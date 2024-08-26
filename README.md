@@ -12,6 +12,11 @@ peço que apos entrar na ecommece e não visualizar nada por favor atualize a pa
 - Adição de produtos ao carrinho.
 - Visualização dos itens no carrinho.
 
+## screenshots
+![paginaHome](https://github.com/user-attachments/assets/538450d2-901b-459a-8e2e-082fe2450ae1)
+
+![paginaCART](https://github.com/user-attachments/assets/ec5b0a28-0ce0-4421-aaea-274a3e35f717)
+
 ## Tecnologias Utilizadas
 
 - [Next.js](https://nextjs.org/)
